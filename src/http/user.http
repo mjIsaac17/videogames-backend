@@ -1,16 +1,30 @@
 @api = http://localhost:1500
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsIm5hbWUiOiJJc2FhYyIsInJvbGVfaWQiOjEsImlhdCI6MTYzMzI3ODA1OSwiZXhwIjoxNjMzMjg1MjU5fQ.xPlboqIwhpNVmDG3Xcm1JUE202jrXh_LWLeNcM2R1BI
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJ1c2VyTmFtZSI6IklzYWFjIiwiaWF0IjoxNjM3NjE4ODY3LCJleHAiOjE2Mzc2MjAwNjd9.dFP-7DEn-_67eWvfXR_SStIi2yNlKtTPIfGiOgRhvOY
+@refreshToken = ayJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJpYXQiOjE2Mzc2MjA5NTMsImV4cCI6MTYzNzcwNzM1M30.z1whzNBJxgelzsA-GfEDPxmTbREh5mLmf0gtaGlPT24
 //REMEMBER: DO NOT ADD A COMMA AFTER THE FINAL PROP IN THE BODY
 // { "prop1":"value1", "prop2":"value2", "prop3":"value3", <-} //BAD
 GET {{api}}/api/user/ping
-# x-token: {{token}}
-###
+
+### Create user
 POST {{api}}/api/user
+Authorization: {{token}}
 Content-Type: application/json
 
 {
     "name": "Isaac",
     "password": "123456",
     "passwordConfirmation": "123456",
-    "email": "isaac10@gmail.com"
+    "email": "isaac4@gmail.com"
 }
+### Login
+POST {{api}}/api/auth
+Content-Type: application/json
+
+{
+    "password": "123456",
+    "email": "isaac4@gmail.com"
+}
+
+### Renew token
+POST {{api}}/api/auth/renew
+x-refresh-token: {{refreshToken}}

@@ -1,8 +1,9 @@
 import express from "express";
 import log from "./logger";
-import connect from "./db/connect";
+import connectToMongo from "./db/connect";
 import config from "./config/config";
 import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 
 const NAMESPACE = "Server";
 const router = express();
@@ -28,6 +29,7 @@ router.use(express.json());
 
 /** Routes */
 router.use("/api/user", userRoutes);
+router.use("/api/auth", authRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {
@@ -42,5 +44,5 @@ router.listen(config.server.port, () => {
     NAMESPACE,
     `Server running at http://${config.server.hostname}:${config.server.port}`
   );
-  connect();
+  connectToMongo();
 });

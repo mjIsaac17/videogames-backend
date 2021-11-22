@@ -1,22 +1,27 @@
 import { Request, Response } from "express";
-import { sign } from "../helpers/jwt.helper";
+import jwt from "../helpers/jwt.helper";
 import log from "../logger";
 import User from "../models/user.model";
 
 const NAMESPACE = "User controller";
 
-export const createUser = async (req: Request, res: Response) => {
-  const user = new User(req.body);
+export const createUser = (req: Request, res: Response) => {
+  //Creating a user add the admin role, this is temporarily
+  const user = new User({ ...req.body, roleId: process.env.ADMIN_ROLE_ID });
 
   return user
     .save()
     .then((result) => {
       log.info(NAMESPACE, `New user ${user.email} added`);
-      const token = sign(
-        { id: result.id, name: result.name },
-        { expiresIn: "20m" }
+      const { authToken, refreshToken } = jwt.generateTokens(
+        result.id,
+        result.name
       );
-      return res.status(201).json({ user: result, token });
+      //@ts-ignore
+      req.userId = result.id;
+      //@ts-ignore
+      req.userName = result.name;
+      return res.status(201).json({ user: result, authToken, refreshToken });
     })
     .catch((error) =>
       res.status(500).json({

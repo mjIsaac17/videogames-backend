@@ -2,12 +2,13 @@ import moongose from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface IUser extends moongose.Document {
-  email: String;
-  name: String;
+  email: string;
+  name: string;
   password: string;
+  roleId: moongose.Schema.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  comparePassword(candidatePassword: string): boolean;
 }
 
 const UserSchema = new moongose.Schema(
@@ -15,6 +16,11 @@ const UserSchema = new moongose.Schema(
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
+    roleId: {
+      type: moongose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Role",
+    },
   },
   { timestamps: true }
 );
@@ -37,17 +43,14 @@ UserSchema.pre("save", function (next) {
 });
 
 // Used for logging in
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string
-) {
+UserSchema.methods.comparePassword = function (candidatePassword: string) {
   const user = this as IUser;
-  return bcrypt
-    .compare(candidatePassword, user.password)
-    .catch((error) => false);
+  return bcrypt.compareSync(candidatePassword, user.password);
 };
 
 UserSchema.method("toJSON", function () {
-  const { __v, password, _id, ...object } = this.toObject();
+  const { __v, password, _id, createdAt, updatedAt, ...object } =
+    this.toObject();
   object.id = _id;
   return object;
 });
