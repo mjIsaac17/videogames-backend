@@ -2,15 +2,15 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsIm5hbWUiOiJJc2FhYyIsInJvbGVfaWQiOjEsImlhdCI6MTYzMzI3ODA1OSwiZXhwIjoxNjMzMjg1MjU5fQ.xPlboqIwhpNVmDG3Xcm1JUE202jrXh_LWLeNcM2R1BI
 //REMEMBER: DO NOT ADD A COMMA AFTER THE FINAL PROP IN THE BODY
 // { "prop1":"value1", "prop2":"value2", "prop3":"value3", <-} //BAD
-GET {{api}}/healthcheck
+GET {{api}}/api/user/ping
 # x-token: {{token}}
 ###
-POST {{api}}/api/users
+POST {{api}}/api/user
 Content-Type: application/json
 
 {
     "name": "Isaac",
     "password": "123456",
     "passwordConfirmation": "123456",
-    "email": "isaac4@gmail.com"
+    "email": "isaac10@gmail.com"
 }
