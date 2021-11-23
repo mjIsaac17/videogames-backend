@@ -1,12 +1,23 @@
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 
 const sign = (payload: Object, options?: jwt.SignOptions | undefined) => {
   return jwt.sign(payload, process.env.SECRET_KEY as string, options);
 };
 
-const generateTokens = (userId: string, userName: string) => {
-  const authToken = sign({ userId, userName }, { expiresIn: "20m" });
-  const refreshToken = sign({ userId }, { expiresIn: "1d" });
+const generateTokens = (
+  userId: string,
+  userName: string,
+  userRoleId: ObjectId
+) => {
+  const authToken = sign(
+    { userId, userName, userRoleId },
+    { expiresIn: "20m" }
+  );
+  const refreshToken = sign(
+    { userId, userName, userRoleId },
+    { expiresIn: "1d" }
+  );
 
   return { authToken, refreshToken };
 };

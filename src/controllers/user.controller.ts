@@ -15,12 +15,10 @@ export const createUser = (req: Request, res: Response) => {
       log.info(NAMESPACE, `New user ${user.email} added`);
       const { authToken, refreshToken } = jwt.generateTokens(
         result.id,
-        result.name
+        result.name,
+        result.roleId
       );
-      //@ts-ignore
-      req.userId = result.id;
-      //@ts-ignore
-      req.userName = result.name;
+
       return res.status(201).json({ user: result, authToken, refreshToken });
     })
     .catch((error) =>

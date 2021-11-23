@@ -1,0 +1,24 @@
+@api = http://localhost:1500
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJ1c2VyTmFtZSI6IklzYWFjIiwidXNlclJvbGVJZCI6IjYxOWJmNjhlNjQzNWRmOGUwMDFiYmE3NSIsImlhdCI6MTYzNzY5OTEyMywiZXhwIjoxNjM3NzAwMzIzfQ.I53VhAUipSUMJBy9o-L2av0tu0XU29aaSQHsncZ-JwA
+@refreshToken = ayJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJpYXQiOjE2Mzc2MjA5NTMsImV4cCI6MTYzNzcwNzM1M30.z1whzNBJxgelzsA-GfEDPxmTbREh5mLmf0gtaGlPT24
+### Login
+POST {{api}}/api/auth
+Content-Type: application/json
+
+{
+    "password": "123456",
+    "email": "isaac4@gmail.com"
+}
+
+### Ping
+GET {{api}}/api/company/ping
+
+### Create company
+POST {{api}}/api/company
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "name": "Sony",
+    "description": "Owner of Play Station"
+}

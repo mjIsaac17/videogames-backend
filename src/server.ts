@@ -4,6 +4,7 @@ import connectToMongo from "./db/connect";
 import config from "./config/config";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import companyRoutes from "./routes/company.routes";
 
 const NAMESPACE = "Server";
 const router = express();
@@ -30,6 +31,7 @@ router.use(express.json());
 /** Routes */
 router.use("/api/user", userRoutes);
 router.use("/api/auth", authRoutes);
+router.use("/api/company", companyRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {

@@ -10,29 +10,29 @@ export const login = (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   //Check if email exists
-  return User.findOne({ email })
-    .populate("roleId", "name", Role)
-    .exec((error, user) => {
-      if (error) {
-        log.error(NAMESPACE, error.message, error);
-        return res.status(404).json({ error: error.message });
-      }
+  return User.findOne({ email }).exec((error, user) => {
+    if (error) {
+      log.error(NAMESPACE, error.message, error);
+      return res.status(404).json({ error: error.message });
+    }
 
-      //Email does not exist
-      if (!user)
-        return res.status(400).json({ error: "Invalid email or password" });
+    //Email does not exist
+    if (!user)
+      return res.status(400).json({ error: "Invalid email or password" });
 
-      const validPassword = user.comparePassword(password);
-      if (!validPassword)
-        return res.status(400).json({ error: "Invalid email or password" });
+    const validPassword = user.comparePassword(password);
+    if (!validPassword)
+      return res.status(400).json({ error: "Invalid email or password" });
 
-      //Generate auth and refresh token
-      const { authToken, refreshToken } = jwtHelper.generateTokens(
-        user.id,
-        user.name
-      );
-      return res.json({ user, authToken, refreshToken });
-    });
+    //Generate auth and refresh token
+    const { authToken, refreshToken } = jwtHelper.generateTokens(
+      user.id,
+      user.name,
+      user.roleId
+    );
+
+    return res.json({ user, authToken, refreshToken });
+  });
 };
 
 export const renewToken = (req: Request, res: Response) => {
@@ -48,9 +48,11 @@ export const renewToken = (req: Request, res: Response) => {
       //@ts-ignore
       (req.userId = tokenData.userId),
       //@ts-ignore
-      (req.userName = tokenData.userName)
+      (req.userName = tokenData.userName),
+      //@ts-ignore
+      (req.userRoleId = tokenData.roleId)
     );
-    return res.json({ authToken, refreshToken });
+    return res.json({ authToken, refreshToken, tokenData });
   } else {
     return res
       .status(401)
