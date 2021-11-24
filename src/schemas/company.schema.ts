@@ -7,3 +7,14 @@ export const createCompanySchema = object({
     image: string().notRequired(),
   }),
 });
+
+export const updateCompanySchema = object({
+  body: object({
+    name: string().test("empty-check", "A valid name is required", (text) => {
+      if (text === "") return false;
+      else return true;
+    }),
+    description: string().notRequired(),
+    image: string().notRequired(),
+  }),
+});

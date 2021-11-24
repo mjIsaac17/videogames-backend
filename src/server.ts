@@ -35,7 +35,7 @@ router.use("/api/company", companyRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {
-  const error = new Error("Not found");
+  const error = new Error("Route not found");
   return res.status(505).json({
     message: error.message,
   });
