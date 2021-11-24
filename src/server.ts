@@ -5,6 +5,7 @@ import config from "./config/config";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import companyRoutes from "./routes/company.routes";
+import consoleRoutes from "./routes/console.routes";
 
 const NAMESPACE = "Server";
 const router = express();
@@ -32,6 +33,7 @@ router.use(express.json());
 router.use("/api/user", userRoutes);
 router.use("/api/auth", authRoutes);
 router.use("/api/company", companyRoutes);
+router.use("/api/console", consoleRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {

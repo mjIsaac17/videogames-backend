@@ -1,0 +1,51 @@
+@api = http://localhost:1500
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJ1c2VyTmFtZSI6IklzYWFjIiwidXNlclJvbGVJZCI6IjYxOWJmNjhlNjQzNWRmOGUwMDFiYmE3NSIsImlhdCI6MTYzNzc4MTQ2NywiZXhwIjoxNjM3NzgyNjY3fQ.dVS0VWhUba9IHp5WfSbnrHQ8PPp6URQeD6HIqHrabZ8
+@refreshToken = ayJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJpYXQiOjE2Mzc2MjA5NTMsImV4cCI6MTYzNzcwNzM1M30.z1whzNBJxgelzsA-GfEDPxmTbREh5mLmf0gtaGlPT24
+### Login
+POST {{api}}/api/auth
+Content-Type: application/json
+
+{
+    "password": "123456",
+    "email": "isaac4@gmail.com"
+}
+
+### Ping
+GET {{api}}/api/console/ping
+
+###Get console by id
+GET {{api}}/api/console/619e9105099f51ed26ac3e46
+Authorization: {{token}}
+
+### Get all consoles
+GET {{api}}/api/console
+Authorization: {{token}}
+
+### Create console
+POST {{api}}/api/console
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "name": "Xbox",
+    "description": "First Microsoft console",
+    "releaseDate": "2000-05-27",
+    "companyId": "619e82db47103a03fb650b1a"
+}
+
+### Update console
+PUT {{api}}/api/console/619e8ffbcc9f12c795d001d6
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "name": "Xbox 360",
+    "description": "First Microsoft console",
+    "releaseDate": "2006-05-27",
+    "companyId": "619e82db47103a03fb650b1a"
+}
+
+### Delete console
+DELETE {{api}}/api/console/619e8ffbcc9f12c795d001d6
+Authorization: {{token}}
+

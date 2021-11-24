@@ -6,7 +6,8 @@ const NAMESPACE = "Company controller";
 
 export const getAllCompanies = (req: Request, res: Response) => {
   try {
-    Company.find((error, companies) => {
+    // get only active companies (not deleted)
+    Company.find({ active: true }, (error, companies) => {
       if (error) return res.status(500).json({ error: error.message });
 
       return res.json({ companies });

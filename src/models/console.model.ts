@@ -19,6 +19,7 @@ const ConsoleSchema = new moongose.Schema(
       ref: "Company",
     },
     image: { type: String, required: false },
+    active: { type: Boolean, required: false, default: true },
   },
   { timestamps: true }
 );
