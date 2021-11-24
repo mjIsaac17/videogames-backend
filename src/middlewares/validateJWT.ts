@@ -22,7 +22,7 @@ export const validateJWT = (
     //@ts-ignore
     req.userRoleId = tokenData.userRoleId;
 
-    next();
+    return next();
   } else
     return res.status(401).json({
       msg: "Invalid token",
