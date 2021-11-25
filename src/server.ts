@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import companyRoutes from "./routes/company.routes";
 import consoleRoutes from "./routes/console.routes";
+import videogameRoutes from "./routes/videogame.routes";
 
 const NAMESPACE = "Server";
 const router = express();
@@ -34,6 +35,7 @@ router.use("/api/user", userRoutes);
 router.use("/api/auth", authRoutes);
 router.use("/api/company", companyRoutes);
 router.use("/api/console", consoleRoutes);
+router.use("/api/videogame", videogameRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {

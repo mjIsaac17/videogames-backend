@@ -12,7 +12,7 @@ const generateTokens = (
 ) => {
   const authToken = sign(
     { userId, userName, userRoleId },
-    { expiresIn: "20m" }
+    { expiresIn: "20d" }
   );
   const refreshToken = sign(
     { userId, userName, userRoleId },
