@@ -26,7 +26,11 @@ router.post(
   [validateJWT, isAdmin, validate(createConsoleSchema)],
   createConsole
 );
-router.put("/:id", [isMongoId, validate(updateConsoleSchema)], updateConsole);
-router.delete("/:id", isMongoId, logicalDeleteConsole);
+router.put(
+  "/:id",
+  [validateJWT, isMongoId, validate(updateConsoleSchema)],
+  updateConsole
+);
+router.delete("/:id", [validateJWT, isMongoId], logicalDeleteConsole);
 
 export default router;

@@ -6,13 +6,15 @@ const NAMESPACE = "Console controller";
 
 export const getAllConsoles = (req: Request, res: Response) => {
   try {
-    Console.find({ active: true })
-      .populate("companyId", "name")
-      .exec((error, consoles) => {
-        if (error) return res.status(500).json({ error: error.message });
+    let query = Console.find();
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Console.find({ active: true });
+    query.populate("companyId", "name").exec((error, consoles) => {
+      if (error) return res.status(500).json({ error: error.message });
 
-        return res.json({ consoles });
-      });
+      return res.json({ consoles });
+    });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -21,13 +23,15 @@ export const getAllConsoles = (req: Request, res: Response) => {
 export const getConsole = (req: Request, res: Response) => {
   try {
     const consoleId = req.params.id;
-    Console.findById(consoleId)
-      .populate("companyId", "name")
-      .exec((error, console) => {
-        if (error) return res.status(500).json({ error: error.message });
+    let query = Console.findById(consoleId);
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Console.findById(consoleId, { active: true });
+    query.populate("companyId", "name").exec((error, console) => {
+      if (error) return res.status(500).json({ error: error.message });
 
-        return res.status(200).json({ console });
-      });
+      return res.status(200).json({ console });
+    });
   } catch (error) {
     return res.status(500).json({ error });
   }

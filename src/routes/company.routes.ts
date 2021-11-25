@@ -25,8 +25,12 @@ router.post(
   [validateJWT, isAdmin, validate(createCompanySchema)],
   createCompany
 );
-router.put("/:id", [isMongoId, validate(updateCompanySchema)], updateCompany);
+router.put(
+  "/:id",
+  [validateJWT, isMongoId, validate(updateCompanySchema)],
+  updateCompany
+);
 // router.delete("/:id", isMongoId, physicalDeleteCompany);
-router.delete("/:id", isMongoId, logicalDeleteCompany);
+router.delete("/:id", [validateJWT, isMongoId], logicalDeleteCompany);
 
 export default router;

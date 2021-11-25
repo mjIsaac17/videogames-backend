@@ -6,8 +6,12 @@ const NAMESPACE = "Company controller";
 
 export const getAllCompanies = (req: Request, res: Response) => {
   try {
-    // get only active companies (not deleted)
-    Company.find({ active: true }, (error, companies) => {
+    // get only active companies (not deleted) when the user is not admin
+    let query = Company.find();
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Company.find({ active: true });
+    query.exec((error, companies) => {
       if (error) return res.status(500).json({ error: error.message });
 
       return res.json({ companies });
@@ -20,7 +24,11 @@ export const getAllCompanies = (req: Request, res: Response) => {
 export const getCompany = (req: Request, res: Response) => {
   try {
     const companyId = req.params.id;
-    Company.findById(companyId).exec((error, company) => {
+    let query = Company.findById(companyId);
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Company.findById(companyId, { active: true });
+    query.exec((error, company) => {
       if (error) return res.status(500).json({ error: error.message });
 
       return res.status(200).json({ company });
