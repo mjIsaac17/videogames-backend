@@ -1,7 +1,8 @@
 @api = http://localhost:1500
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJ1c2VyTmFtZSI6IklzYWFjIiwidXNlclJvbGVJZCI6IjYxOWJmNjhlNjQzNWRmOGUwMDFiYmE3NSIsImlhdCI6MTYzNzc3NzQ1NSwiZXhwIjoxNjM3Nzc4NjU1fQ.z_2BeYJVtOuPdjH_DIG-yQ9VPAIJmcvo6KZ600DzJfU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJ1c2VyTmFtZSI6IklzYWFjIiwidXNlclJvbGVJZCI6IjYxOWJmNjhlNjQzNWRmOGUwMDFiYmE3NSIsImlhdCI6MTYzODM5OTgwNywiZXhwIjoxNjQwMTI3ODA3fQ.KelsEobyqBkDYu_QXQexps4qK-RFUdOeTWevMGy51II
 @refreshToken = ayJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTliZjczNzg4OTNkNDJlODZkMjRiMTAiLCJpYXQiOjE2Mzc2MjA5NTMsImV4cCI6MTYzNzcwNzM1M30.z1whzNBJxgelzsA-GfEDPxmTbREh5mLmf0gtaGlPT24
-### Login
+
+### Login ADMIN
 POST {{api}}/api/auth
 Content-Type: application/json
 
@@ -14,7 +15,7 @@ Content-Type: application/json
 GET {{api}}/api/company/ping
 
 ###Get company by id
-GET {{api}}/api/company/619d4e58076745b18180ec8f
+GET {{api}}/api/company/619e82db47103a03fb650b1a
 Authorization: {{token}}
 
 ### Get all companies

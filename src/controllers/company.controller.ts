@@ -31,7 +31,9 @@ export const getCompany = (req: Request, res: Response) => {
     query.exec((error, company) => {
       if (error) return res.status(500).json({ error: error.message });
 
-      return res.status(200).json({ company });
+      if (!company) return res.status(404).json({ error: "Company not found" });
+      return res.status(200).send(company);
+      //return res.status(200).json({ company });
     });
   } catch (error) {
     return res.status(500).json({ error });
@@ -39,8 +41,14 @@ export const getCompany = (req: Request, res: Response) => {
 };
 
 export const createCompany = (req: Request, res: Response) => {
-  const company = new Company(req.body);
+  //@ts-ignore
+  const imageData = req.files.image.data;
+  //@ts-ignore
+  const imageType = req.files.image.mimetype;
+  // console.log(imageData);
+  // return res.status(200).json({});
 
+  const company = new Company({ ...req.body, image: imageData, imageType });
   try {
     company
       .save()

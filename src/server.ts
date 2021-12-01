@@ -1,4 +1,7 @@
 import express from "express";
+import fileUpload from "express-fileupload";
+import cors from "cors";
+
 import log from "./logger";
 import connectToMongo from "./db/connect";
 import config from "./config/config";
@@ -29,6 +32,8 @@ router.use((req, res, next) => {
 });
 
 router.use(express.json());
+router.use(fileUpload());
+router.use(cors());
 
 /** Routes */
 router.use("/api/user", userRoutes);

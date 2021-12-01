@@ -19,12 +19,8 @@ const router = express.Router();
 
 router.get("/ping", (req, res) => res.status(200).send("OK"));
 router.get("/", validateJWT, getAllCompanies);
-router.get("/:id", [validateJWT, isMongoId], getCompany);
-router.post(
-  "/",
-  [validateJWT, isAdmin, validate(createCompanySchema)],
-  createCompany
-);
+router.get("/:id", [isMongoId], getCompany);
+router.post("/", [validate(createCompanySchema)], createCompany);
 router.put(
   "/:id",
   [validateJWT, isMongoId, validate(updateCompanySchema)],

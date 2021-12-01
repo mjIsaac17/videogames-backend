@@ -7,6 +7,6 @@ import { createUserSchema } from "../schemas/user.schema";
 const router = express.Router();
 
 router.get("/ping", (req, res) => res.status(200).send("OK"));
-router.post("/", validateJWT, validate(createUserSchema), createUser);
+router.post("/", validate(createUserSchema), createUser);
 
 export default router;

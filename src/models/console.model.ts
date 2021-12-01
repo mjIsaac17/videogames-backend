@@ -5,7 +5,7 @@ export interface IConsole extends moongose.Document {
   description: string;
   releaseDate: Date;
   companyId: moongose.Types.ObjectId;
-  image: string;
+  image: Buffer;
 }
 
 const ConsoleSchema = new moongose.Schema(
@@ -18,7 +18,7 @@ const ConsoleSchema = new moongose.Schema(
       required: true,
       ref: "Company",
     },
-    image: { type: String, required: false },
+    image: { type: Buffer, required: false },
     active: { type: Boolean, required: false, default: true },
   },
   { timestamps: true }

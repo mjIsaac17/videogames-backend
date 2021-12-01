@@ -3,14 +3,16 @@ import moongose from "mongoose";
 export interface ICompany extends moongose.Document {
   name: string;
   description: string;
-  image: string;
+  image: Buffer;
+  imageType: string;
 }
 
 const CompanySchema = new moongose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: false },
-    image: { type: String, required: false },
+    image: { type: Buffer, required: false },
+    imageType: { type: String, required: false },
     active: { type: Boolean, required: false, default: true },
   },
   { timestamps: true }

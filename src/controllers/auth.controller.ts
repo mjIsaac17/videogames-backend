@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwtHelper from "../helpers/jwt.helper";
 import log from "../logger";
 import User from "../models/user.model";
-import Role from "../models/role.model";
 
 const NAMESPACE = "Auth controller";
 
@@ -13,7 +12,7 @@ export const login = (req: Request, res: Response) => {
   return User.findOne({ email }).exec((error, user) => {
     if (error) {
       log.error(NAMESPACE, error.message, error);
-      return res.status(404).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
 
     //Email does not exist

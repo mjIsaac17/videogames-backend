@@ -14,7 +14,7 @@ Content-Type: application/json
     "name": "Isaac",
     "password": "123456",
     "passwordConfirmation": "123456",
-    "email": "isaac4@gmail.com"
+    "email": "isaac@gmail.com"
 }
 ### Login
 POST {{api}}/api/auth
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
     "password": "123456",
-    "email": "isaac4@gmail.com"
+    "email": "isaac@gmail.com"
 }
 
 ### Renew token
