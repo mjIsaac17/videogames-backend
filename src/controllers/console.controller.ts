@@ -7,14 +7,27 @@ const NAMESPACE = "Console controller";
 export const getAllConsoles = (req: Request, res: Response) => {
   try {
     let query = Console.find();
+    const limit = Math.abs(Number(req.query.limit)) || 10;
+    const page = (Math.abs(Number(req.query.page)) || 1) - 1;
+
     //@ts-ignore
     if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
       query = Console.find({ active: true });
-    query.populate("companyId", "name").exec((error, consoles) => {
-      if (error) return res.status(500).json({ error: error.message });
-
-      return res.json({ consoles });
-    });
+    query
+      .limit(Number(limit))
+      .skip(limit * page)
+      .populate("companyId", "name")
+      .exec((error, consoles) => {
+        if (error) return res.status(500).json({ error: error.message });
+        Console.count().exec((error, count) => {
+          if (error) return res.status(500).json({ error: error.message });
+          return res.json({
+            consoles,
+            count,
+            pages: Math.ceil(count / limit),
+          });
+        });
+      });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -38,7 +51,12 @@ export const getConsole = (req: Request, res: Response) => {
 };
 
 export const createConsole = (req: Request, res: Response) => {
-  const consoleData = new Console(req.body);
+  //@ts-ignore
+  const imageData = req.files.image.data;
+  //@ts-ignore
+  const imageType = req.files.image.mimetype;
+
+  const consoleData = new Console({ ...req.body, image: imageData, imageType });
 
   try {
     consoleData
