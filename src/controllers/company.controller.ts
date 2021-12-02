@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Company from "../models/company.model";
 import log from "../logger";
+import { Number } from "mongoose";
 
 const NAMESPACE = "Company controller";
 
@@ -8,14 +9,29 @@ export const getAllCompanies = (req: Request, res: Response) => {
   try {
     // get only active companies (not deleted) when the user is not admin
     let query = Company.find();
+
+    const limit = Math.abs(Number(req.query.limit)) || 10;
+    const page = (Math.abs(Number(req.query.page)) || 1) - 1;
+
     //@ts-ignore
     if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
       query = Company.find({ active: true });
-    query.exec((error, companies) => {
-      if (error) return res.status(500).json({ error: error.message });
 
-      return res.json({ companies });
-    });
+    query
+      .limit(Number(limit))
+      .skip(limit * page)
+      .exec((error, companies) => {
+        if (error) return res.status(500).json({ error: error.message });
+        Company.count().exec((error, count) => {
+          if (error) return res.status(500).json({ error: error.message });
+
+          return res.json({
+            companies,
+            count,
+            pages: Math.ceil(count / limit),
+          });
+        });
+      });
   } catch (error) {
     return res.status(500).json({ error });
   }
