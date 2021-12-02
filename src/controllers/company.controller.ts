@@ -18,7 +18,7 @@ export const getAllCompanies = (req: Request, res: Response) => {
       query = Company.find({ active: true });
 
     query
-      .limit(Number(limit))
+      .limit(limit)
       .skip(limit * page)
       .exec((error, companies) => {
         if (error) return res.status(500).json({ error: error.message });

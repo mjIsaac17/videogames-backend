@@ -7,6 +7,7 @@ export interface IVideogame extends moongose.Document {
   companies: Array<moongose.Types.ObjectId>;
   consoles: Array<moongose.Types.ObjectId>;
   image: Buffer;
+  imageType: string;
 }
 
 const VideogameSchema = new moongose.Schema(
@@ -28,7 +29,8 @@ const VideogameSchema = new moongose.Schema(
         ref: "Console",
       },
     ],
-    image: { type: Buffer, required: false },
+    image: { type: Buffer, required: true },
+    imageType: { type: String, required: true },
     active: { type: Boolean, required: false, default: true },
   },
   { timestamps: true }

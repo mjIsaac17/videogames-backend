@@ -7,16 +7,27 @@ const NAMESPACE = "Videogame controller";
 export const getAllVideogames = (req: Request, res: Response) => {
   try {
     let query = Videogame.find();
+    const limit = Math.abs(Number(req.query.limit)) || 10;
+    const page = (Math.abs(Number(req.query.page)) || 1) - 1;
     //@ts-ignore
     if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
       query = Videogame.find({ active: true });
     query
+      .limit(limit)
+      .skip(limit * page)
       .populate("companies", "name")
       .populate("consoles", "name")
       .exec((error, videogames) => {
         if (error) return res.status(500).json({ error: error.message });
+        Videogame.count().exec((error, count) => {
+          if (error) return res.status(500).json({ error: error.message });
 
-        return res.json({ videogames });
+          return res.json({
+            videogames,
+            count,
+            pages: Math.ceil(count / limit),
+          });
+        });
       });
   } catch (error) {
     return res.status(500).json({ error });
@@ -44,8 +55,15 @@ export const getVideogame = (req: Request, res: Response) => {
 };
 
 export const createVideogame = (req: Request, res: Response) => {
-  const videogameData = new Videogame(req.body);
-
+  //@ts-ignore
+  const imageData = req.files.image.data;
+  //@ts-ignore
+  const imageType = req.files.image.mimetype;
+  const videogameData = new Videogame({
+    ...req.body,
+    image: imageData,
+    imageType,
+  });
   try {
     videogameData
       .save()
