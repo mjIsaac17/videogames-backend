@@ -37,6 +37,24 @@ export const getAllCompanies = (req: Request, res: Response) => {
   }
 };
 
+export const getCompanyByName = (req: Request, res: Response) => {
+  try {
+    const companyName = req.params.name;
+    let query = Company.find({ name: companyName });
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Company.find({ active: true, name: companyName });
+    query.exec((error, company) => {
+      if (error) return res.status(500).json({ error: error.message });
+
+      if (!company) return res.status(404).json({ error: "Company not found" });
+      return res.status(200).json({ company: company[0] });
+    });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 export const getCompany = (req: Request, res: Response) => {
   try {
     const companyId = req.params.id;
@@ -49,7 +67,6 @@ export const getCompany = (req: Request, res: Response) => {
 
       if (!company) return res.status(404).json({ error: "Company not found" });
       return res.status(200).send(company);
-      //return res.status(200).json({ company });
     });
   } catch (error) {
     return res.status(500).json({ error });

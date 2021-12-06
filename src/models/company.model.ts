@@ -2,6 +2,7 @@ import moongose from "mongoose";
 
 export interface ICompany extends moongose.Document {
   name: string;
+  shortDescription: string;
   description: string;
   image: Buffer;
   imageType: string;
@@ -9,7 +10,8 @@ export interface ICompany extends moongose.Document {
 
 const CompanySchema = new moongose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
+    shortDescription: { type: String, required: false },
     description: { type: String, required: false },
     image: { type: Buffer, required: false },
     imageType: { type: String, required: false },
