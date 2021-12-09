@@ -34,6 +34,29 @@ export const getAllVideogames = (req: Request, res: Response) => {
   }
 };
 
+export const getVideogameByName = (req: Request, res: Response) => {
+  try {
+    const videogameName = req.params.name;
+    let query = Videogame.findOne({ name: videogameName });
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Videogame.findOne({ active: true, name: videogameName });
+    query
+      .populate("companies", "name")
+      .populate("consoles", "name")
+      .exec((error, videogame) => {
+        if (error) return res.status(500).json({ error: error.message });
+
+        if (!videogame)
+          return res.status(404).json({ error: "Videogame not found" });
+
+        return res.status(200).json({ videogame: videogame });
+      });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 export const getVideogame = (req: Request, res: Response) => {
   try {
     const videogameId = req.params.id;

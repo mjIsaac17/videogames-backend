@@ -9,6 +9,7 @@ import {
   createVideogame,
   getAllVideogames,
   getVideogame,
+  getVideogameByName,
   logicalDeleteVideogame,
   updateVideogame,
 } from "../controllers/videogame.controller";
@@ -21,7 +22,8 @@ const router = express.Router();
 
 router.get("/ping", (req, res) => res.status(200).send("OK"));
 router.get("/", validateJWT, getAllVideogames);
-router.get("/:id", [validateJWT, isMongoId], getVideogame);
+// router.get("/:id", [validateJWT, isMongoId], getVideogame);
+router.get("/:name", validateJWT, getVideogameByName);
 router.post(
   "/",
   [validateJWT, isAdmin, validate(createVideogameSchema)],
