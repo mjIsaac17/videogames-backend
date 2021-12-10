@@ -33,6 +33,24 @@ export const getAllConsoles = (req: Request, res: Response) => {
   }
 };
 
+export const getConsoleByName = (req: Request, res: Response) => {
+  try {
+    const consoleName = req.params.name;
+    let query = Console.findOne({ name: consoleName });
+    //@ts-ignore
+    if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
+      query = Console.findOne({ name: consoleName, active: true });
+    query.populate("companyId", "name").exec((error, console) => {
+      if (error) return res.status(500).json({ error: error.message });
+
+      if (!console) return res.status(404).json({ error: "Console not found" });
+      return res.status(200).json({ console });
+    });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 export const getConsole = (req: Request, res: Response) => {
   try {
     const consoleId = req.params.id;

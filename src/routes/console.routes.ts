@@ -11,7 +11,8 @@ import {
 import {
   createConsole,
   getAllConsoles,
-  getConsole,
+  getConsoleByName,
+  // getConsole,
   logicalDeleteConsole,
   updateConsole,
 } from "../controllers/console.controller";
@@ -20,7 +21,8 @@ const router = express.Router();
 
 router.get("/ping", (req, res) => res.status(200).send("OK"));
 router.get("/", validateJWT, getAllConsoles);
-router.get("/:id", [validateJWT, isMongoId], getConsole);
+// router.get("/:id", [validateJWT, isMongoId], getConsole);
+router.get("/:name", validateJWT, getConsoleByName);
 router.post(
   "/",
   [validateJWT, isAdmin, validate(createConsoleSchema)],

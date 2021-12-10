@@ -40,15 +40,15 @@ export const getAllCompanies = (req: Request, res: Response) => {
 export const getCompanyByName = (req: Request, res: Response) => {
   try {
     const companyName = req.params.name;
-    let query = Company.find({ name: companyName });
+    let query = Company.findOne({ name: companyName });
     //@ts-ignore
     if (req.userRoleId !== process.env.ADMIN_ROLE_ID)
-      query = Company.find({ active: true, name: companyName });
+      query = Company.findOne({ active: true, name: companyName });
     query.exec((error, company) => {
       if (error) return res.status(500).json({ error: error.message });
 
       if (!company) return res.status(404).json({ error: "Company not found" });
-      return res.status(200).json({ company: company[0] });
+      return res.status(200).json({ company });
     });
   } catch (error) {
     return res.status(500).json({ error });
