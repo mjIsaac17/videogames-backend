@@ -78,7 +78,6 @@ export const createCompany = (req: Request, res: Response) => {
   const imageData = req.files.image.data;
   //@ts-ignore
   const imageType = req.files.image.mimetype;
-  // console.log(imageData);
   // return res.status(200).json({});
 
   const company = new Company({ ...req.body, image: imageData, imageType });
@@ -101,9 +100,22 @@ export const createCompany = (req: Request, res: Response) => {
 
 export const updateCompany = (req: Request, res: Response) => {
   const companyId = req.params.id;
+  //@ts-ignore
+  const newImage = req.files?.image;
+
+  const companyData = {
+    ...req.body,
+  };
+
+  if (newImage) {
+    //@ts-ignore
+    companyData.imageType = newImage.mimetype;
+    //@ts-ignore
+    companyData.image = newImage.data;
+  }
 
   try {
-    Company.findByIdAndUpdate(companyId, req.body, {
+    Company.findByIdAndUpdate(companyId, companyData, {
       returnDocument: "after",
     }).exec((error, company) => {
       if (error) return res.status(500).json({ error: error.message });

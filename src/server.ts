@@ -46,7 +46,7 @@ router.use("/api/videogame", videogameRoutes);
 router.use((req, res, next) => {
   const error = new Error("Route not found");
   return res.status(505).json({
-    message: error.message,
+    error: error.message,
   });
 });
 
