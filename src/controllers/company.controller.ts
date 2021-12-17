@@ -112,7 +112,7 @@ export const updateCompany = (req: Request, res: Response) => {
     companyData.imageType = newImage.mimetype;
     //@ts-ignore
     companyData.image = newImage.data;
-  }
+  } else delete companyData.image;
 
   try {
     Company.findByIdAndUpdate(companyId, companyData, {
